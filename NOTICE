@@ -1,0 +1,30 @@
+Fizgig 한국어 번역 레이어 (Fizgig Korean Localization Layer)
+Copyright 2026 ssain3d-lgtm and contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+------------------------------------------------------------------------------
+This work is a derivative of, and an add-on for:
+
+  Fizgig — Klein 9B LoRA Trainer & Workbench
+  Copyright 2026 Peter Neill
+  https://github.com/shootthesound/Fizgig
+  Licensed under the Apache License, Version 2.0
+
+  The English keys in lib/fizgig_ko/strings/*.json are user-interface strings
+  extracted verbatim from Fizgig's Apache-2.0 licensed source; the Korean
+  values are this project's translation. No Fizgig source file is modified,
+  bundled or redistributed here.
+
+  Fizgig's own NOTICE lists its third-party components (musubi-tuner,
+  ai-toolkit, Diffusers / Qwen-Image VAE); none of them are used or
+  redistributed by this layer. See THIRD_PARTY_NOTICES.md in the Fizgig
+  repository for the full list.
+
+"Fizgig" is the name of that upstream project and is used here only to
+describe what this add-on translates. This project is not affiliated with,
+endorsed by, or supported by the Fizgig authors.
