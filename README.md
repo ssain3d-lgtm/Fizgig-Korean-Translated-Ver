@@ -13,7 +13,7 @@
 **Fizgig 소스는 한 글자도 수정하지 않습니다.** 그래서 `update_fizgig.bat`(= `git pull`)로
 Fizgig 를 업데이트해도 충돌이 나지 않고, 번역도 영어로 되돌아가지 않습니다.
 
-- 기준 버전: **Fizgig v4.2.0** (`1b9a64f`)
+- 기준 버전: **Fizgig v4.3.2** (`8a5dcd9`)
 - 더 새로운 Fizgig 에서도 그대로 동작합니다. 새로 추가·변경된 문구만 영어로 보입니다(앱은 정상 동작).
 
 ---
@@ -137,7 +137,7 @@ Fizgig never conflict and never revert the translation.
 
 Install: clone into the Fizgig folder as `ko`, run `한글화_설치.bat` (or `./install_ko.sh`).
 Uninstall: `한글화_제거.bat`. Disable for one run: `FIZGIG_LANG=en`.
-Built against Fizgig v4.2.0 (`1b9a64f`); newer strings simply show in English.
+Built against Fizgig v4.3.2 (`8a5dcd9`); newer strings simply show in English.
 
 Licensed under Apache-2.0. Derivative of Fizgig (Apache-2.0, Copyright 2026 Peter Neill) —
 the English keys in `lib/fizgig_ko/strings/*.json` are UI strings extracted from its source.
