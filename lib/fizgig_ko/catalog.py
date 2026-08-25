@@ -92,9 +92,8 @@ class Catalog:
         exact = self.log_exact if log_only else self.exact
         wild = self.log_templates if log_only else self.templates
         by_prefix = self.log_by_prefix if log_only else self.by_prefix
-        for en, ko in mapping.items():
-            if not isinstance(en, str) or not isinstance(ko, str) or not ko:
-                continue
+
+        def register(en, ko, derived):
             if _PLACEHOLDER.search(en):
                 # an identity template ("{0} GB: {1}") is still useful: it lets the captured
                 # pieces ("up to 0.25 MP") be translated on their own
@@ -104,9 +103,26 @@ class Catalog:
                 else:
                     wild.append(t)
             elif en != ko:
-                exact[en] = ko
+                if derived:
+                    exact.setdefault(en, ko)
+                else:
+                    exact[en] = ko
                 if not log_only:
                     self.reverse.setdefault(ko, en)
+
+        pairs = [(en, ko) for en, ko in mapping.items()
+                 if isinstance(en, str) and isinstance(ko, str) and ko]
+        for en, ko in pairs:
+            register(en, ko, False)
+        # A key carrying its own line breaks ("\n\nDevice VRAM {0} / {1} GB") is never looked up
+        # whole: _lookup splits a message on newlines and hands over one bare segment at a time,
+        # so the entry never fires — and the bare line can even be swallowed by an unrelated
+        # template. Register the stripped form too, in a second pass so an explicit catalogue
+        # entry always wins over a derived one.
+        for en, ko in pairs:
+            core_en, core_ko = en.strip(), ko.strip()
+            if core_en != en and core_en and core_ko:
+                register(core_en, core_ko, True)
         self._cache.clear()
         self._log_cache.clear()
 
