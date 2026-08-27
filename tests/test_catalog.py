@@ -150,3 +150,16 @@ def test_bare_segment_not_swallowed_by_other_template():
 def test_explicit_entry_beats_derived_bare_form():
     c = Catalog({"\n\nRetry.": "\n\n다시 시도하세요.", "Retry.": "재시도."})
     assert c.tr("Failed.\n\nRetry.") == "Failed.\n\n재시도."
+
+
+def test_log_template_piece_falls_back_to_ui_catalog():
+    # tr_log's contract — the log catalogue first, then the UI one — has to reach the pieces a
+    # log template captures: a message assembled into a log line is a UI string
+    c = Catalog({"Folder is missing.": "폴더가 없습니다."},
+                {"[dataset] refused — {0}\n": "[dataset] 거부됨 — {0}\n"})
+    assert c.tr_log("[dataset] refused — Folder is missing.\n") == "[dataset] 거부됨 — 폴더가 없습니다.\n"
+
+
+def test_log_catalog_wins_over_ui_for_captured_pieces():
+    c = Catalog({"Busy": "작업 중"}, {"Status: {0}\n": "상태: {0}\n", "Busy": "바쁨"})
+    assert c.tr_log("Status: Busy\n") == "상태: 바쁨\n"

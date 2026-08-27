@@ -127,7 +127,7 @@ class Catalog:
         self._log_cache.clear()
 
     # -- lookup -------------------------------------------------------------
-    def _lookup(self, s, exact, by_prefix, wild, cache, depth=0):
+    def _lookup(self, s, exact, by_prefix, wild, cache, depth=0, fallback=None):
         hit = cache.get(s)
         if hit is not None:
             return hit
@@ -137,7 +137,13 @@ class Catalog:
                 if not v or len(v) > 400:
                     return v
                 try:
-                    return self._lookup(v, exact, by_prefix, wild, cache, depth + 1)
+                    r = self._lookup(v, exact, by_prefix, wild, cache, depth + 1)
+                    if r == v and fallback is not None:
+                        # tr_log's contract is the log catalogue first, then the UI one, and a
+                        # piece captured by a log template needs the same fallback: a message
+                        # assembled into one ("[dataset] launch refused — {0}") is a UI string.
+                        r = fallback(v)
+                    return r
                 except Exception:
                     return v
         out = exact.get(s)
@@ -201,7 +207,8 @@ class Catalog:
         if not isinstance(s, str) or not s:
             return s
         try:
-            out = self._lookup(s, self.log_exact, self.log_by_prefix, self.log_templates, self._log_cache)
+            out = self._lookup(s, self.log_exact, self.log_by_prefix, self.log_templates,
+                               self._log_cache, fallback=self.tr)
             if out is s or out == s:
                 out = self.tr(s)
             return out
