@@ -356,7 +356,7 @@
  "Click to view console log": "클릭하면 콘솔 로그를 봅니다",
  "Clipped {0}% → {1}%": "클리핑 {0}% → {1}%",
  "Close": "닫기",
- "Close Fizgig and run update_fizgig.bat to update.": "Fizgig를 닫고 update_fizgig.bat를 실행해 업데이트하세요.",
+ "Close Fizgig and run update_fizgig.bat to update.": "Fizgig를 닫고 update_fizgig.bat을 실행해 업데이트하세요.",
  "Close Fizgig and run update_fizgig_rocm.bat to update.": "Fizgig를 닫고 update_fizgig_rocm.bat을 실행해 업데이트하세요.",
  "Close without changing anything.": "아무것도 바꾸지 않고 닫습니다.",
  "Close without queueing. Nothing has been written either way.": "대기열에 넣지 않고 닫습니다. 어느 쪽이든 아무것도 저장되지 않았습니다.",
