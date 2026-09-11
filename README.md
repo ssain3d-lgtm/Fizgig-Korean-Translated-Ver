@@ -2,7 +2,7 @@
 
 [Fizgig](https://github.com/shootthesound/Fizgig) 와 함께 들어 있는 **Gizmo** 의 화면 문구를
 **실행 시점에** 한국어로 바꿔 주는 애드온입니다. 탭·버튼·라벨·설명문·툴팁·경고창·드롭다운 항목까지
-약 **2,000개** 문구를 번역합니다.
+약 **2,300개** 문구를 번역합니다.
 
 > ### ⚠️ 비공식 커뮤니티 번역입니다
 > 이 저장소는 Fizgig 제작자([Peter Neill / shootthesound](https://github.com/shootthesound))와
@@ -13,7 +13,7 @@
 **Fizgig 소스는 한 글자도 수정하지 않습니다.** 그래서 `update_fizgig.bat`(= `git pull`)로
 Fizgig 를 업데이트해도 충돌이 나지 않고, 번역도 영어로 되돌아가지 않습니다.
 
-- 기준 버전: **Fizgig v4.5.1** (`d191d2e`)
+- 기준 버전: **Fizgig v5.7.0** (`4e85cde`)
 - 더 새로운 Fizgig 에서도 그대로 동작합니다. 새로 추가·변경된 문구만 영어로 보입니다(앱은 정상 동작).
 
 ---
@@ -130,14 +130,14 @@ Fizgig 소스 파일 자체는 이 저장소에 포함·수정·재배포되지 
 An **unofficial** Korean localization add-on for
 [Fizgig](https://github.com/shootthesound/Fizgig) and its bundled Gizmo tool. It ships **no
 Fizgig source**: a single `.pth` line in Fizgig's venv installs an import hook that patches
-Tkinter at runtime, translating ~2,000 UI strings on the way into widgets and mapping them
+Tkinter at runtime, translating ~2,300 UI strings on the way into widgets and mapping them
 back to English on the way out (`cget`, `StringVar.get`, `Entry.get`), so the app's own logic
 and saved files stay English. Because nothing upstream is modified, `git pull` updates of
 Fizgig never conflict and never revert the translation.
 
 Install: clone into the Fizgig folder as `ko`, run `한글화_설치.bat` (or `./install_ko.sh`).
 Uninstall: `한글화_제거.bat`. Disable for one run: `FIZGIG_LANG=en`.
-Built against Fizgig v4.5.1 (`d191d2e`); newer strings simply show in English.
+Built against Fizgig v5.7.0 (`4e85cde`); newer strings simply show in English.
 
 Licensed under Apache-2.0. Derivative of Fizgig (Apache-2.0, Copyright 2026 Peter Neill) —
 the English keys in `lib/fizgig_ko/strings/*.json` are UI strings extracted from its source.

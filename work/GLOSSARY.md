@@ -96,7 +96,19 @@ Gizmo는 그 부속 도구(영상/음성 클립 자르기, 녹음)입니다. 사
 | Tip jar / coffee | 후원 / 커피 한 잔 |
 | Workbench | 워크벤치 |
 | Edit model | 편집 모델 |
-| Full Model (fine-tune) | 전체 모델 |
+| Full Model (학습할 블록 범위 옵션) | 전체 모델 |
+| Fine-tune / fine-tuning (v5.0.0+, 베이스 모델 자체 학습) | 파인튜닝 |
+| Rotation cycle / window | 로테이션 주기 / 윈도우 |
+| component mode / block mode | 컴포넌트 모드 / 블록 모드 |
+| Checkpoint to LoRA | 체크포인트 → LoRA |
+| Regularisation images | 정규화 이미지 |
+| Training adapter | 학습 어댑터 |
+| Training mode | 학습 모드 |
+| Refiner (text token refiner) | 리파이너 |
+| Baseline / Tweaked (리페어 스튜디오) | 원본 / 조정본 |
+| Library / bank (리페어 스튜디오 블록 라이브러리) | 라이브러리 / 뱅크 |
+| Pass (렌더당 모델 패스) | 패스 |
+| Keyframe | 키프레임 |
 | Optimised Likeness Learning | 최적화 닮음 학습 |
 | Train / Queue Train | 학습 / 대기열에 학습 추가 |
 | Ready. / Done. / Busy | 준비됨. / 완료. / 작업 중 |
@@ -108,4 +120,8 @@ Gizmo는 그 부속 도구(영상/음성 클립 자르기, 녹음)입니다. 사
 - 같은 영어 단어가 여러 곳에 쓰이면 한 가지 번역으로 통일하세요(위 표 우선).
 - `Update` 가 `⬆ Update Available` 식이면 `⬆ 업데이트 있음`. 버튼 `Update` 는 `업데이트`.
 - `Krea 2 RAW DiT`, `Klein 9B`, `H3` 같은 모델 표기는 그대로.
+- `fine-tune` 은 v5.0.0 에서 들어온 **베이스 모델 자체 학습**이라 `파인튜닝` 으로 옮깁니다.
+  기존 `Full Model`(LoRA 안에서 학습할 블록 범위를 고르는 옵션 값, `전체 모델`)과 혼동하지 마세요.
+- 영어 복수 접미사 자리표시자(`clip{1}` 의 `{1}` = `s` 또는 빈 값)는 한국어에 불필요하지만
+  `merge` 가 자리표시자 누락을 거부하므로, 기존 항목들처럼 수량 뒤에 그대로 둡니다(`클립 {0}개{1}`).
 - 영어 관용구(`More soup, vicar?` 같은 샘플 문장, 인용구)가 **읽기 지문/샘플 대사**로 보이면 `""` 로 비웁니다.
