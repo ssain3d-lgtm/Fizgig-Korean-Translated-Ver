@@ -17,7 +17,8 @@ import sys
 
 KO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(KO_DIR)
-SOURCES = ["lora_trainer_gui.py", "gizmo.py"]
+# Fizgig 7 and older: the main app was lora_trainer_gui.py (a Tk window); from 8 on only Gizmo is Tk (src/gizmo/)
+SOURCES = ["lora_trainer_gui.py", "gizmo.py", os.path.join("src", "gizmo", "gizmo.py")]
 STRINGS_DIR = os.path.join(KO_DIR, "lib", "fizgig_ko", "strings")
 WORK = os.path.join(KO_DIR, "work")
 

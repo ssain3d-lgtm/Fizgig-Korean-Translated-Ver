@@ -1,0 +1,6 @@
+{
+  "name": "fizgig-ko-tools",
+  "private": true,
+  "description": "웹 UI 문구 추출용 (tools/js_strings.js 가 acorn 으로 app.js 를 파싱합니다)",
+  "dependencies": { "acorn": "8.14.0", "acorn-walk": "8.3.4" }
+}

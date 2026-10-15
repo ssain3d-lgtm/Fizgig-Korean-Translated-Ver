@@ -110,6 +110,31 @@ Gizmo는 그 부속 도구(영상/음성 클립 자르기, 녹음)입니다. 사
 | Pass (렌더당 모델 패스) | 패스 |
 | Keyframe | 키프레임 |
 | Optimised Likeness Learning | 최적화 닮음 학습 |
+| RefMod (ComfyUI-MiniMaxH3Mod 의 레퍼런스 mod 파일) | RefMod (영문 유지) |
+| RefMod Studio | RefMod 스튜디오 |
+| ReFLoRA (LoRA + RefMod 를 담은 단일 파일) | ReFLoRA (영문 유지) |
+| mod (단독으로 쓰인 경우) | mod / mod 파일 |
+| Mods (RefMod 스튜디오 카드 제목) | mod 목록 |
+| node pack / the pack (ComfyUI 노드 팩) | 노드 팩 |
+| dial (슬라이더 LoRA 의 조절 축) | 다이얼 |
+| Kind of training | 학습 종류 |
+| Standard LoRA / Edit / Slider (학습 종류) | 표준 LoRA / 편집 / 슬라이더 |
+| Fast Identity Mode | 빠른 아이덴티티 모드 |
+| Ultra mode / Push strength (슬라이더) | 울트라 모드 / 푸시 강도 |
+| Part (파인튜닝이 한 번에 학습하는 단위) | 파트 |
+| Strength (= Apply 노드의 Retention) | 강도 (노드 위젯명 `Retention` 은 영문 유지) |
+| Copies (레퍼런스 사본 수) | 사본 수 |
+| Shuffle (= Scramble seed) | 셔플 |
+| Numbered references | 번호 매긴 레퍼런스 |
+| Frame curve / Step Curve (노드명) | 프레임 커브 / 스텝 커브 |
+| where / shape / amount (커브 파라미터) | 위치 / 모양 / 정도 |
+| Sweep / strip | 스윕 / 스트립 |
+| Bake (as new RefMod) | 베이크 |
+| Bleed (다른 인물까지 피사체처럼 보이는 현상) | 번짐 |
+| Look (블록 그룹 이름) | 룩 |
+| Concept / concept type (mod 분류) | 컨셉 (값 `identity` `style` `pose_motion` 등은 영문 유지) |
+| Audio mod / Audio support | 오디오 mod / 오디오 지원 |
+| With mods / No mod (RefMod 스튜디오 비교 렌더) | mod 적용 / mod 없음 |
 | Train / Queue Train | 학습 / 대기열에 학습 추가 |
 | Ready. / Done. / Busy | 준비됨. / 완료. / 작업 중 |
 | Off / On / Auto / None / All / Custom | 끔 / 켬 / 자동 / 없음 / 전체 / 사용자 지정 |
@@ -123,5 +148,39 @@ Gizmo는 그 부속 도구(영상/음성 클립 자르기, 녹음)입니다. 사
 - `fine-tune` 은 v5.0.0 에서 들어온 **베이스 모델 자체 학습**이라 `파인튜닝` 으로 옮깁니다.
   기존 `Full Model`(LoRA 안에서 학습할 블록 범위를 고르는 옵션 값, `전체 모델`)과 혼동하지 마세요.
 - 영어 복수 접미사 자리표시자(`clip{1}` 의 `{1}` = `s` 또는 빈 값)는 한국어에 불필요하지만
-  `merge` 가 자리표시자 누락을 거부하므로, 기존 항목들처럼 수량 뒤에 그대로 둡니다(`클립 {0}개{1}`).
+  `merge` 가 자리표시자 누락을 거부하므로 반드시 남겨야 합니다. 한국어에 **영어 명사가 그대로 남아 있으면
+  그 뒤에 붙이고**(`RefMod{1} {0}개` → `RefMods 7개`), 남아 있지 않으면 괄호 안 영어 단어로 받습니다
+  (`경로(path{1}) {0}개`). 둘 다 안 되면 기존 항목들처럼 수량 뒤에 둡니다(`클립 {0}개{1}`).
+- `RefMod` / `ReFLoRA` / `mod` 는 **영문 그대로** 둡니다(ComfyUI 노드 팩의 파일 종류 이름이라
+  한국어로 바꾸면 사용자가 ComfyUI 에서 찾을 수 없습니다). 단독 `mod` 는 문맥에 따라 `mod` 또는 `mod 파일`.
+- RefMod 스튜디오의 값은 **ComfyUI 노드에 그대로 입력하는 설정**입니다. 그래서 노드·위젯 이름
+  (`Apply`, `Step Curve`, `Load H3 RefLoRA`, `Scramble seed`, `Frame curve`, `refmod_retention`,
+  `concept_at_start` 등)과 노드 팩 경로(`models/refmods`)는 번역하지 않고 영문으로 둡니다.
+  설명문 안의 기능 이름은 한국어로 옮기되, 괄호 안 노드명은 영문을 유지합니다.
+  예: `Strength  (the Apply node's Retention)` → `강도  (Apply 노드의 Retention)`.
+- tkinter 키 이름(`Return`, `Escape`, `Tab`, `Home`, `End`, `Left` …), 파일 대화상자의 형식 라벨
+  (`LoRA`, `RefMod`, `ReFLoRA`, `*.png *.json`), TOML/메타데이터로 기록되는 줄
+  (`clip_megapixels = {0}`, `control_directory = "{0}"`, `studio: copies {0}`)은 **번역하지 않습니다**
+  (화면 문구가 아니거나, 번역하면 동작이 깨집니다).
+- `catalog.py` 의 템플릿은 자리표시자 안에 ` · ` 를 삼키지 않습니다(`allows_sep`). 그래서 값에 ` · ` 가
+  들어가는 조합 문구(`Sweep: Retention 0 · 0.15 · … — {0} clips of {1} frames…`)는 그 값까지 포함한
+  **전용 템플릿**을 따로 넣어야 번역됩니다.
 - 영어 관용구(`More soup, vicar?` 같은 샘플 문장, 인용구)가 **읽기 지문/샘플 대사**로 보이면 `""` 로 비웁니다.
+
+## 웹 UI (Fizgig 8+) 용 추가 규칙
+웹 사전은 Tk 사전과 분리되어 있습니다: `lib/fizgig_ko/strings_web/` (`web.json`은 `chunks.py merge-web` 이 만드는 파일,
+`structure.json`은 손으로 관리). `strings/zz_overrides.json` 은 두 사전 모두에 마지막으로 적용됩니다.
+
+- 영어 키는 **화면에 그려지는 그대로의 문자열**입니다. 자리표시자는 `{0}`, `{1}` … 로 통일합니다(JS 의 `${x}`,
+  파이썬 f-string/`format` 도 같은 번호 매기기). 한국어는 순서를 바꿔도 되지만 **같은 번호를 모두** 써야 합니다.
+- **영어 복수/일치 접미사**(`block{'s' if n != 1 else ''}`, JS `cond ? "" : "s"`)는 추출 단계에서 자동으로
+  찾아 냅니다. 이렇게 확인된 자리표시자는 한국어에서 **빼야** 하고(`{0} block{1} moved` → `블록 {0}개 이동됨`),
+  `merge-web` 이 빠진 것을 허용합니다. 확인되지 않은 `{N}` 은 그대로 써야 합니다(`r{0}`, `GPU{0}`).
+- `{0} word{1}` 꼴(숫자 + 영어 낱말)은 **첫 칸이 숫자로 시작할 때만** 맞습니다(`3 clips` ✔, `Save clip (WebM)` ✘).
+  이 가드는 `catalog.py` / `web_ko.js` 의 `count_lead` 입니다.
+- `"Web UI"` 는 **번역 금지**입니다. 페이지 코드가 카드 제목을 글자로 비교합니다(`web.py` 의 `PROTECTED`).
+- `<option>` 의 `value`, 입력값, `<pre>` 로그, `<textarea>`, `title`/`placeholder` 가 아닌 데이터(`mod` 이름 `(none)` 등)는
+  번역하지 않습니다. 프롬프트로 쓰이는 단어(`as a toddler`, `Woman` …)와 경로·키 이름·옵티마이저 이름 같은 기술 표기는
+  영문으로 두며 `tools/web_keep_english.json` 에 기록합니다.
+- `⚠ {0}`, `▼ {0}`, `✨ {0}` 같은 **항등 템플릿**(영어=한국어)은 `structure.json` 에 둡니다. 그래야 뒤에 오는 문구가 따로 번역됩니다.
+- 코드가 문장을 이어 붙이는 곳(`ft_plan.py` 의 `On this card (…): a rotation is … epochs` 등)은 조각마다 템플릿을 둡니다.

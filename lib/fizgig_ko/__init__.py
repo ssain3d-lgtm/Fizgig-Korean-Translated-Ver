@@ -1,9 +1,11 @@
 """Fizgig 한글화 부트스트랩.
 
 venv의 site-packages 안에 있는 ``fizgig_ko.pth`` 한 줄이 인터프리터 시작 시 이 패키지를
-import 합니다. 여기서는 아무것도 건드리지 않고, ``tkinter`` 가 import 되는 순간에만
-패치를 거는 import 훅을 등록합니다. 학습 서브프로세스처럼 tkinter 를 쓰지 않는
-프로세스에는 영향이 없습니다.
+import 합니다. 여기서는 아무것도 건드리지 않고, 다음 두 모듈이 import 되는 순간에만 패치를 거는
+import 훅을 등록합니다. 학습 서브프로세스처럼 둘 다 쓰지 않는 프로세스에는 영향이 없습니다.
+
+  - ``tkinter``           — Fizgig 7 이하의 메인 창과 Gizmo (Tk 위젯 문자열을 사전으로 치환)
+  - ``fizgig.web.server`` — Fizgig 8 이상의 메인 앱(웹 UI). 서버가 내보내는 페이지에 번역기를 끼움
 
 끄고 싶으면 환경변수 ``FIZGIG_LANG=en`` 을 설정하세요.
 """
@@ -66,14 +68,56 @@ class _TkFinder:
         return spec
 
 
+def _patch_web(module):
+    try:
+        from . import web
+        web.apply(module)
+    except Exception:
+        from . import web
+        web.log_error("web.apply")
+
+
+class _WebFinder:
+    """Lets the real fizgig.web.server import run, then hooks its request handler."""
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname != "fizgig.web.server":
+            return None
+        try:
+            sys.meta_path.remove(self)
+        except ValueError:
+            pass
+        try:
+            spec = importlib.util.find_spec(fullname)
+        except Exception:
+            return None
+        if spec is None or spec.loader is None or not hasattr(spec.loader, "exec_module"):
+            return spec
+        loader = spec.loader
+        orig_exec = loader.exec_module
+
+        def exec_module(module):
+            orig_exec(module)
+            _patch_web(module)
+
+        try:
+            loader.exec_module = exec_module
+        except Exception:
+            return None
+        return spec
+
+
 def install():
     if os.environ.get("FIZGIG_LANG", "").lower().startswith("en"):
         return
     if "tkinter" in sys.modules:
         _patch_tkinter(sys.modules["tkinter"])
-        return
-    if not any(isinstance(f, _TkFinder) for f in sys.meta_path):
+    elif not any(isinstance(f, _TkFinder) for f in sys.meta_path):
         sys.meta_path.insert(0, _TkFinder())
+    if "fizgig.web.server" in sys.modules:
+        _patch_web(sys.modules["fizgig.web.server"])
+    elif not any(isinstance(f, _WebFinder) for f in sys.meta_path):
+        sys.meta_path.insert(0, _WebFinder())
 
 
 try:
