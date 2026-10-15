@@ -1,0 +1,20 @@
+{
+ "▼ {0}": "▼ {0}",
+ "▶ {0}": "▶ {0}",
+ "⚠ {0}": "⚠ {0}",
+ "✨ {0}": "✨ {0}",
+ "✨{0}": "✨{0}",
+ "[{0}]": "[{0}]",
+ "{0} — detailed": "{0} — 상세",
+ "{0}:": "{0}:",
+ "{0} *:": "{0} *:",
+ "≈ {0} tokens at generation ({1} per reference), above the pack's {2} default": "생성 시 약 {0} 토큰 (레퍼런스당 {1}), 노드 팩 기본값 {2}보다 많음",
+ "≈ {0} tokens at generation ({1} per reference), under the pack's {2} default": "생성 시 약 {0} 토큰 (레퍼런스당 {1}), 노드 팩 기본값 {2}보다 적음",
+ "On this card ({0} GB free): every part trains at once, nothing rotates - a rotation is {1} epoch(s){2}": "이 카드({0} GB 여유): 모든 파트를 한꺼번에 학습하므로 로테이션하지 않으며, 로테이션 1회 = {1} 에폭{2}",
+ "On this card ({0} GB free): a rotation is {1} window(s) x {2} epoch(s) = {3} epochs{4}": "이 카드({0} GB 여유): 로테이션 1회 = 윈도우 {1}개 x {2} 에폭 = {3} 에폭{4}",
+ " (several parts train together in a window)": " (여러 파트가 한 윈도우에서 함께 학습)",
+ " - parts outside the one training stream from system memory, so steps are slower": " - 학습 스트림 밖의 파트는 시스템 메모리에서 불러오므로 스텝이 느려집니다",
+ " (several parts train together in a window) - parts outside the one training stream from system memory, so steps are slower": " (여러 파트가 한 윈도우에서 함께 학습) - 학습 스트림 밖의 파트는 시스템 메모리에서 불러오므로 스텝이 느려집니다",
+ "(~{0} GB each)": "(각 약 {0} GB)",
+ "{0} (~{1} GB each)": "{0} (각 약 {1} GB)"
+}

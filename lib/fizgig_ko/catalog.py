@@ -31,8 +31,11 @@ def _split_ws(s):
     return s[:start], s[start:end], s[end:]
 
 
+_COUNT_LEAD = re.compile(r"[~+\-–]?\d")
+
+
 class _Template:
-    __slots__ = ("en", "ko", "regex", "prefix", "nparams", "allows_sep")
+    __slots__ = ("en", "ko", "regex", "prefix", "nparams", "allows_sep", "count_lead", "first")
 
     def __init__(self, en, ko):
         self.en, self.ko = en, ko
@@ -57,12 +60,20 @@ class _Template:
         # inside a placeholder — "{0} GB: {1}" would otherwise eat "16 GB: a · 24 GB: b" whole
         # and the piecewise fallback never gets a look in.
         self.allows_sep = any(_SEGMENT_SPLIT.search(parts[i]) for i in range(0, len(parts), 2))
+        # "{0} clip{1}", "{0} queued{1}", "{0} files{1}{2}": a placeholder, ONE lowercase word, nothing
+        # else is a count ("3 clips"). Without a guard it would also swallow "Save clip (WebM)" and
+        # print "clip Save개 (WebM)", so its first capture has to start like a number.
+        self.first = parts[1] if len(parts) > 2 else None
+        self.count_lead = bool(not parts[0] and len(parts) > 2 and re.fullmatch(r" [a-z]+", parts[2])
+                               and all(p == "" for p in parts[4::2]))
 
     def apply(self, s, inner=None):
         m = self.regex.match(s)
         if not m:
             return None
         groups = m.groupdict()
+        if self.count_lead and not _COUNT_LEAD.match(groups.get("p" + self.first) or ""):
+            return None
         if not self.allows_sep and any(_SEGMENT_SPLIT.search(v) for v in groups.values() if v):
             return None
         if inner is not None:
@@ -157,10 +168,18 @@ class Catalog:
                 for cand in (s, core):
                     if not cand:
                         continue
-                    for t in by_prefix.get(cand[:3], ()):
-                        r = t.apply(cand, inner)
-                        if r is not None:
-                            out = r if cand is s else lead + r + trail
+                    # a template is bucketed under the first 3 chars of its literal prefix, or under
+                    # the whole prefix when that is shorter ("(" in "({0} images)", "#" in "#{0}"),
+                    # so probe the 3-, 2- and 1-char keys, most specific first
+                    for n in (3, 2, 1):
+                        for t in by_prefix.get(cand[:n], ()):
+                            if n < 3 and len(t.prefix) != n:
+                                continue
+                            r = t.apply(cand, inner)
+                            if r is not None:
+                                out = r if cand is s else lead + r + trail
+                                break
+                        if out is not None:
                             break
                     if out is not None:
                         break

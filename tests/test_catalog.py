@@ -163,3 +163,43 @@ def test_log_template_piece_falls_back_to_ui_catalog():
 def test_log_catalog_wins_over_ui_for_captured_pieces():
     c = Catalog({"Busy": "작업 중"}, {"Status: {0}\n": "상태: {0}\n", "Busy": "바쁨"})
     assert c.tr_log("Status: Busy\n") == "상태: 바쁨\n"
+
+
+def test_template_with_one_or_two_char_literal_prefix():
+    # templates are bucketed under the first 3 chars of their literal prefix; one whose whole
+    # prefix is shorter ("(" in "({0} images)", "#" in "#{0}") used to land in a bucket no
+    # lookup ever probed, so it never fired
+    c = Catalog({"({0} images)": "(이미지 {0}장)", "x{0} speed": "{0}배속",
+                 "#{0}: {1}": "#{0}번: {1}", "Is{0}": "{0}임", "Up {0} done": "위 {0} 완료"})
+    assert c.tr("(5 images)") == "(이미지 5장)"
+    assert c.tr("x4 speed") == "4배속"
+    assert c.tr("#7: abc") == "#7번: abc"
+    assert c.tr("Isabc") == "abc임"
+    assert c.tr("Up 3 done") == "위 3 완료"
+    assert c.tr("Un 3 done") == "Un 3 done"          # no template: untouched
+
+
+def test_short_prefix_template_does_not_hijack_longer_prefix():
+    c = Catalog({"({0} images)": "(이미지 {0}장)", "(Mod {0})": "(모드 {0})"})
+    assert c.tr("(Mod 3)") == "(모드 3)"             # the longer prefix is the more specific one
+    assert c.tr("(5 images)") == "(이미지 5장)"
+
+
+def test_count_template_does_not_swallow_a_phrase():
+    # "{0} clip{1}" is a count: it must not turn "Save clip (WebM)" into "clip Save개 (WebM)"
+    c = Catalog({"{0} clip{1}": "클립 {0}개{1}", "{0} queued{1}": "{0}개 대기 중{1}"})
+    assert c.tr("3 clips") == "클립 3개s"
+    assert c.tr("1 clip") == "클립 1개"
+    assert c.tr("12 queued, 1 paused") == "12개 대기 중, 1 paused"
+    assert c.tr("Save clip (WebM)") == "Save clip (WebM)"
+    assert c.tr("Nothing queued") == "Nothing queued"
+
+
+def test_longer_leading_placeholder_template_is_unrestricted():
+    # more than one word of its own: the first capture may be anything ("Klein 9B model paths")
+    c = Catalog({"{0} path not set or not found.": "{0} 경로가 설정되지 않았습니다.",
+                 "{0} model paths": "{0} 모델 경로", "{0} files{1}{2}": "파일 {0}개{1}{2}"})
+    assert c.tr("Krea 2 DiT path not set or not found.") == "Krea 2 DiT 경로가 설정되지 않았습니다."
+    assert c.tr("Klein 9B model paths") == "Klein 9B 모델 경로"
+    assert c.tr("12 files, 3 without a caption") == "파일 12개, 3 without a caption"
+    assert c.tr("Save files") == "Save files"

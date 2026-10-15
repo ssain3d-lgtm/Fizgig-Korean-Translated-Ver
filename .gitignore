@@ -10,3 +10,13 @@ work/missing.json
 work/merge_problems.txt
 work/chunks/
 work/out/
+work/out_web/
+work/web_candidates.json
+work/web_missing.json
+work/web_missing_runtime.json
+work/web_reuse.json
+work/web_runtime.json
+
+# tools/js_strings.js 용 (npm install 로 생성)
+tools/node_modules/
+tools/package-lock.json

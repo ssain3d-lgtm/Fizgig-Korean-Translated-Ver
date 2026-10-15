@@ -166,3 +166,21 @@ Gizmo는 그 부속 도구(영상/음성 클립 자르기, 녹음)입니다. 사
   들어가는 조합 문구(`Sweep: Retention 0 · 0.15 · … — {0} clips of {1} frames…`)는 그 값까지 포함한
   **전용 템플릿**을 따로 넣어야 번역됩니다.
 - 영어 관용구(`More soup, vicar?` 같은 샘플 문장, 인용구)가 **읽기 지문/샘플 대사**로 보이면 `""` 로 비웁니다.
+
+## 웹 UI (Fizgig 8+) 용 추가 규칙
+웹 사전은 Tk 사전과 분리되어 있습니다: `lib/fizgig_ko/strings_web/` (`web.json`은 `chunks.py merge-web` 이 만드는 파일,
+`structure.json`은 손으로 관리). `strings/zz_overrides.json` 은 두 사전 모두에 마지막으로 적용됩니다.
+
+- 영어 키는 **화면에 그려지는 그대로의 문자열**입니다. 자리표시자는 `{0}`, `{1}` … 로 통일합니다(JS 의 `${x}`,
+  파이썬 f-string/`format` 도 같은 번호 매기기). 한국어는 순서를 바꿔도 되지만 **같은 번호를 모두** 써야 합니다.
+- **영어 복수/일치 접미사**(`block{'s' if n != 1 else ''}`, JS `cond ? "" : "s"`)는 추출 단계에서 자동으로
+  찾아 냅니다. 이렇게 확인된 자리표시자는 한국어에서 **빼야** 하고(`{0} block{1} moved` → `블록 {0}개 이동됨`),
+  `merge-web` 이 빠진 것을 허용합니다. 확인되지 않은 `{N}` 은 그대로 써야 합니다(`r{0}`, `GPU{0}`).
+- `{0} word{1}` 꼴(숫자 + 영어 낱말)은 **첫 칸이 숫자로 시작할 때만** 맞습니다(`3 clips` ✔, `Save clip (WebM)` ✘).
+  이 가드는 `catalog.py` / `web_ko.js` 의 `count_lead` 입니다.
+- `"Web UI"` 는 **번역 금지**입니다. 페이지 코드가 카드 제목을 글자로 비교합니다(`web.py` 의 `PROTECTED`).
+- `<option>` 의 `value`, 입력값, `<pre>` 로그, `<textarea>`, `title`/`placeholder` 가 아닌 데이터(`mod` 이름 `(none)` 등)는
+  번역하지 않습니다. 프롬프트로 쓰이는 단어(`as a toddler`, `Woman` …)와 경로·키 이름·옵티마이저 이름 같은 기술 표기는
+  영문으로 두며 `tools/web_keep_english.json` 에 기록합니다.
+- `⚠ {0}`, `▼ {0}`, `✨ {0}` 같은 **항등 템플릿**(영어=한국어)은 `structure.json` 에 둡니다. 그래야 뒤에 오는 문구가 따로 번역됩니다.
+- 코드가 문장을 이어 붙이는 곳(`ft_plan.py` 의 `On this card (…): a rotation is … epochs` 등)은 조각마다 템플릿을 둡니다.
