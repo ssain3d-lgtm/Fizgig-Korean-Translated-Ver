@@ -1,0 +1,16 @@
+{
+ "_doc": "tools/extract.py 가 미번역으로 세지 않는, 의도적으로 영어로 두는 Tk 문구(확장자 패턴·창 제목·캡션에 들어가는 텍스트 등).",
+ "exact": [
+  "*.mp4 *.mov *.mkv *.avi *.m4v *.webm",
+  "*.mp4 *.mov *.mkv *.avi *.m4v *.webm *.mts *.wmv",
+  "*.wav *.mp3 *.flac *.m4a",
+  "Gizmo",
+  "Gizmo — Whisper",
+  "Gizmo — {0}",
+  "chiptune, 8-bit, instrumental, square wave lead, arpeggios",
+  "saying \"{0}\"",
+  "{0} Hz {1}",
+  "{0} x {1}   ({2} MP){3}",
+  "{0}x{1}  ·  {2} fps  ·  {3} s  ·  {4}"
+ ]
+}

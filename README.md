@@ -151,6 +151,8 @@ venv\Scripts\python.exe ko\tools\chunks.py split --missing
 venv\Scripts\python.exe ko\tools\chunks.py merge          # 검증 후 ui.json / log.json 에 병합
 ```
 
+영어로 두기로 한 Tk 문구(확장자 패턴, 창 제목 등)는 `tools/tk_keep_english.json` 에 적어 두면 `extract.py` 가 다시 세지 않습니다.
+
 번역 규칙과 용어집은 [`work/GLOSSARY.md`](work/GLOSSARY.md) 에 있습니다.
 `merge` 는 자리표시자(`{0}`) 불일치, 한글 누락, 짧은 문구의 중복 번역(역매핑이 깨지는 원인)을 검사합니다.
 

@@ -361,6 +361,15 @@ def load_translated():
     return have
 
 
+def load_keep_english():
+    """tools/tk_keep_english.json: strings that stay English on purpose (not counted as untranslated)."""
+    try:
+        with open(os.path.join(KO_DIR, "tools", "tk_keep_english.json"), encoding="utf-8") as f:
+            return json.load(f).get("exact", [])
+    except (OSError, ValueError):
+        return []
+
+
 def main():
     ex = Extractor()
     for src in SOURCES:
@@ -372,6 +381,7 @@ def main():
     with open(os.path.join(WORK, "candidates.json"), "w", encoding="utf-8") as f:
         json.dump(res, f, ensure_ascii=False, indent=1)
     have = load_translated()
+    have.update(dict.fromkeys(load_keep_english(), ""))
     missing = {k: v for k, v in res.items() if k not in have}
     with open(os.path.join(WORK, "missing.json"), "w", encoding="utf-8") as f:
         json.dump(missing, f, ensure_ascii=False, indent=1)
