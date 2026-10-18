@@ -16,5 +16,8 @@
  " - parts outside the one training stream from system memory, so steps are slower": " - 학습 스트림 밖의 파트는 시스템 메모리에서 불러오므로 스텝이 느려집니다",
  " (several parts train together in a window) - parts outside the one training stream from system memory, so steps are slower": " (여러 파트가 한 윈도우에서 함께 학습) - 학습 스트림 밖의 파트는 시스템 메모리에서 불러오므로 스텝이 느려집니다",
  "(~{0} GB each)": "(각 약 {0} GB)",
- "{0} (~{1} GB each)": "{0} (각 약 {1} GB)"
+ "{0} (~{1} GB each)": "{0} (각 약 {1} GB)",
+ "✓ Good word. {0}": "✓ 좋은 단어입니다. {0}",
+ "Joins cleanly, with a note below. {0}": "깔끔하게 이어집니다. 아래에 참고 사항이 있습니다. {0}",
+ "{0} of {1} sliders free to roll{2}": "슬라이더 {1}개 중 {0}개를 굴릴 수 있음{2}"
 }
