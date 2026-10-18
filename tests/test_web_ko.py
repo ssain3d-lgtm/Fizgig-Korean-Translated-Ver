@@ -154,3 +154,17 @@ def test_web_hook_injects_only_into_the_main_page():
     assert body.count(b'<script id="fizgig-ko">') == 1 and body.rfind(b"</body>") > body.find(b'id="fizgig-ko"')
     assert sent[1][1] == b"<html><body>other page</body></html>"      # not the app page
     assert sent[2][1] == b'{"a": 1}' and sent[3][1] == page             # JSON and error pages untouched
+
+
+def test_web_catalog_trigger_check_verdict_with_pieces():
+    cat = _web_catalog()
+    # "reads as f | yx | ow | oman" holds " | ", which a template may not swallow: the piecewise fallback has to finish it
+    out = cat.tr("✓ Good word. dlorwoman reads as dl | or | woman")
+    assert out.startswith("✓ 좋은 단어입니다.") and out.endswith("dl | or | woman") and "reads as" not in out
+
+
+def test_web_catalog_lucky_status_line():
+    cat = _web_catalog()
+    assert cat.tr("32 of 32 sliders free to roll") == "슬라이더 32개 중 32개를 굴릴 수 있음"
+    assert cat.tr("12 of 32 sliders free to roll, 4 locked or frozen slider(s) left alone") == (
+        "슬라이더 32개 중 12개를 굴릴 수 있음, 잠기거나 동결된 슬라이더 4개는 건드리지 않음")

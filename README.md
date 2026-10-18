@@ -3,7 +3,7 @@
 [Fizgig](https://github.com/shootthesound/Fizgig) 의 화면 문구를 **실행 시점에** 한국어로 바꿔 주는
 애드온입니다. 탭·버튼·라벨·설명문·툴팁·경고창·드롭다운 항목까지 번역합니다.
 
-- **Fizgig 8 이상 (웹 UI)** — 메인 앱이 웹 화면으로 바뀐 버전입니다. 약 **2,400개** 문구를 번역합니다.
+- **Fizgig 8 이상 (웹 UI)** — 메인 앱이 웹 화면으로 바뀐 버전입니다. 약 **2,700개** 문구를 번역합니다.
 - **Gizmo / Fizgig 7 이하 (Tk 창)** — 약 **2,800개** 문구를 번역합니다.
 
 > ### ⚠️ 비공식 커뮤니티 번역입니다
@@ -15,7 +15,7 @@
 **Fizgig 소스는 한 글자도 수정하지 않습니다.** 그래서 `update_fizgig.bat`(= `git pull`)로
 Fizgig 를 업데이트해도 충돌이 나지 않고, 번역도 영어로 되돌아가지 않습니다.
 
-- 기준 버전: **Fizgig v8.0.7** (웹 UI) · Gizmo(Tk)는 v7.1.0 기준
+- 기준 버전: **Fizgig v8.6.0** (웹 UI, MOSS-Image · Flux 3 포함) · Gizmo(Tk)는 v8.6.0 기준
 - 더 새로운 Fizgig 에서도 그대로 동작합니다. 새로 추가·변경된 문구만 영어로 보입니다(앱은 정상 동작).
 
 > **Fizgig 를 8 로 올렸더니 한글이 사라졌다면** — 8 부터 메인 앱이 Tk 창에서 웹 화면으로 바뀌어, 예전 번역은
@@ -184,7 +184,7 @@ runtime. Because nothing upstream is modified, `git pull` updates of Fizgig neve
 revert the translation.
 
 - **Fizgig 8+ (web UI):** a hook on `fizgig.web.server` injects a small translator script and the
-  dictionary (~2,400 strings) into the main page response; the script rewrites visible text, `title` /
+  dictionary (~2,700 strings) into the main page response; the script rewrites visible text, `title` /
   `placeholder` / `aria-label` and `<option>` labels in the browser and follows later DOM changes. Form
   values, logs (`<pre>`) and anything the page code compares against are left alone. `?ko=off` shows a
   page in English.
@@ -196,7 +196,7 @@ If you upgraded to Fizgig 8 and lost the translation: `git pull` in the `ko` fol
 
 Install: clone into the Fizgig folder as `ko`, run `한글화_설치.bat` (or `./install_ko.sh`).
 Uninstall: `한글화_제거.bat`. Disable for one run: `FIZGIG_LANG=en`.
-Built against Fizgig v8.0.7 (web UI) and v7.1.0 (Tk); newer strings simply show in English.
+Built against Fizgig v8.6.0 (web UI and Gizmo); newer strings simply show in English.
 
 Licensed under Apache-2.0. Derivative of Fizgig (Apache-2.0, Copyright 2026 Peter Neill) —
 the English keys in `lib/fizgig_ko/strings/*.json` and `lib/fizgig_ko/strings_web/*.json` are UI strings extracted from its source.
